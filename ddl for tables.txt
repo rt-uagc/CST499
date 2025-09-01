@@ -1,0 +1,47 @@
+-- USERS TABLE
+create table Users (
+    userID INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    emailAddress VARCHAR(100) UNIQUE,
+    passwordHash VARCHAR(255),
+    createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- COURSES TABLE
+create table Courses (
+    courseID INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    trimester ENUM('Fall', 'Spring', 'Summer'),
+    capacity INT,
+    enrolledCount INT DEFAULT 0
+);
+
+insert into Courses (courseID, title, capacity, enrolledCount) values
+(101, 'Intro to Cybersecurity', 3, 2),
+(102, 'Web Development Fundamentals', 2, 2), 
+(103, 'Database Design', 4, 1),
+(104, 'Systems Analysis & Design', 3, 0),
+(105, 'Ethics in IT', 2, 2),
+(106, 'Trauma-Informed Tech Practices', 5, 4),
+(107, 'Community-Based IT Solutions', 3, 1);
+
+-- ENROLLMENTS TABLE
+create table Enrollments (
+    enrollmentID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT,
+    courseID INT,
+    enrollmentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES Users(userID),
+    FOREIGN KEY (courseID) REFERENCES Courses(courseID)
+);
+
+-- WAITLIST TABLE
+create table Waitlist (
+    waitlistID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT,
+    courseID INT,
+    waitlistDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES Users(userID),
+    FOREIGN KEY (courseID) REFERENCES Courses(courseID)
+);
